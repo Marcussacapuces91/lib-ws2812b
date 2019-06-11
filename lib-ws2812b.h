@@ -38,7 +38,9 @@ public:
     byte b;
   };
 
-
+/**
+ * Définition de l'ordre des composantes suivant le type de contrôleur.
+ */
   enum order_t {
     RGB = 0,
     GRB = 1
@@ -65,17 +67,35 @@ public:
     if (pos < LEN) data[pos] = rgb;
   }
 
+/**
+ * Définit le triplet de la LED indiquée.
+ * 
+ * @param pos Position de la LED dans la ligne [0..n-1]
+ * @param r Intensité de la LED rouge [0..255]
+ * @param g Intensité de la LED verte [0..255]
+ * @param b Intensité de la LED bleue [0..255]
+ */
   void setRGB(const byte pos, const byte r, const byte g, const byte b) {
     setRGB(pos, rgb_t({r, g, b}) );
   }
 
+/**
+ * Définit le triplet de la LED indiquée à partir de l'espace de couleurs HSV
+ * 
+ * @param pos Position de la LED dans la ligne [0..n-1]
+ * @param h Teinte ou couleur pure sur le disque de 360° [0..1535]
+ * @param s Saturation (puretée de la couleur) [0..255]
+ * @param v Luminosité globale [0..255]
+ *
+ * @source http://www.vagrearg.org/content/hsvrgb
+ */
   void setHSV(const byte pos, const unsigned h, const byte s, const byte v) {
-
+// Luminosité nul --> Noir.
     if (!v) {
       setRGB(pos, 0, 0, 0);
       return;
     }
-
+// Saturation nulle --> Gris
     if (!s) {
       setRGB(pos, v, v, v);
       return;
